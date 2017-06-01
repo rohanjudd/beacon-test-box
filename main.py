@@ -31,15 +31,15 @@ current_menu = menu_main
 
 
 def terminal_test():
-    hat.newTerminal()
+    hat.oled.start_terminal()
     for x in range(10):
-        hat.write("abcdefghijklmnopqrstuvwxyz")
+        hat.oled.write("abcdefghijklmnopqrstuvwxyz")
         time.sleep(0.2)
 
 
 def to_do():
     print("To Do")
-    hat.displayNotification("To Do")
+    hat.oled.display_notification("To Do")
 
 
 def micro_test():
@@ -57,7 +57,7 @@ def micro_test():
 def rx_display_test():
     for x in range(0, 32):
         hat.oled.display_rx(x, True, x)
-        time.sleep(0.5)
+        time.sleep(0.05)
     time.sleep(1)
 
 
@@ -67,7 +67,7 @@ def hat_test():
 
 def show_menu():
     os.system("clear")
-    hat.displayMenu(current_menu)
+    hat.oled.display_menu(current_menu)
     print(current_menu.get_title())
     x = 1
     for l in current_menu.get_lines():
@@ -186,7 +186,7 @@ def main():
     hat.set_status_led(True)
     micro.connect()
     populate_menus()
-    hat.splash()
+    hat.oled.splash()
     time.sleep(4)
 
     rx_display_test()
