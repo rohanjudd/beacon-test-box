@@ -3,10 +3,8 @@ import os
 import time
 import string
 from menu import Menu
-from oled import Oled
 from hat import Hat
 from switch import switch
-from beacon import Beacon
 from serialmicro import SerialMicro
 
 micro = SerialMicro()
@@ -23,6 +21,7 @@ def close():
 def start_sleep():
     print("Going to Sleep")
     hat.sleep()
+
 
 menu_shutdown = Menu("Shutdown", close)
 menu_main = Menu("Main Test Box Menu", menu_shutdown)
@@ -56,8 +55,7 @@ def micro_test():
 
 
 def rx_display_test():
-    codes_done = 0
-    for x in range(0,32):
+    for x in range(0, 32):
         hat.oled.displayRx(x, True, x)
         time.sleep(0.5)
     time.sleep(1)
@@ -73,24 +71,24 @@ def show_menu():
     print(current_menu.getTitle())
     x = 1
     for l in current_menu.getLines():
-        print("{}: {}".format(x,l))
-        x+=1
-        
-def gotoMenu(menu):
+        print("{}: {}".format(x, l))
+        x += 1
+
+
+def go_to_menu(menu):
     global current_menu
     current_menu = menu
     show_menu()
-    
+
+
 def select():
     print("SELECT")
-    
-def incorrectInput():
-    print("Incorrect Key")
 
-def populateMenus():
+
+def populate_menus():
     menu_main.addEntry("rxDisplay Test", rx_display_test)
     menu_main.addEntry("IR Transmitter", menu_tx)
-    menu_main.addEntry("IR Reciever", menu_rx)
+    menu_main.addEntry("IR Receiver", menu_rx)
     menu_main.addEntry("Micro Test", micro_test)
     menu_main.addEntry("Terminal Test", terminal_test)
     menu_main.addEntry("Hat Test", hat_test)
@@ -106,21 +104,22 @@ def populateMenus():
     menu_shutdown.addEntry("Back to Main", menu_main)
     menu_shutdown.addEntry("Shutdown", close)
 
-def processButtonInput():
-    sleepTimer = 0
-    shutdownTimer = 0
+
+def process_button_input():
+    sleep_timer = 0
+    shutdown_timer = 0
     state = hat.getButtonState()
-    while  state == hat.NONE and sleepTimer < 500:
+    while state == hat.NONE and sleep_timer < 500:
         state = hat.getButtonState()
-        sleepTimer += 1
+        sleep_timer += 1
         time.sleep(0.05)
-    if sleepTimer >= 500:
+    if sleep_timer >= 500:
         start_sleep()
-        while state == hat.NONE and shutdownTimer < 500:
+        while state == hat.NONE and shutdown_timer < 500:
             state = hat.getButtonState()
-            shutdownTimer += 1
+            shutdown_timer += 1
             time.sleep(0.05)
-    if shutdownTimer >= 500:
+    if shutdown_timer >= 500:
         close()
     if state == hat.UP:
         current_menu.up()
@@ -128,25 +127,26 @@ def processButtonInput():
         current_menu.down()
     elif state == hat.BACK:
         obj = current_menu.getParent()
-        if (type(obj) is Menu):
-            gotoMenu(obj)
+        if type(obj) is Menu:
+            go_to_menu(obj)
         else:
             obj()
     elif state == hat.SELECT:
         obj = current_menu.select()
-        if (type(obj) is Menu):
-            gotoMenu(obj)
+        if type(obj) is Menu:
+            go_to_menu(obj)
         else:
             obj()
-    
-def processInput():
+
+
+def process_input():
     inp = input()
     if len(inp) > 0:
         c = inp[0]
     else:
         c = ' '
     for case in switch(c):
-        if case(*string.ascii_lowercase): # note the * for unpacking as arguments
+        if case(*string.ascii_lowercase):  # note the * for unpacking as arguments
             if c == 'x':
                 close()
                 break
@@ -158,14 +158,14 @@ def processInput():
                 break
             if c == 'd':
                 obj = current_menu.select()
-                if (type(obj) is Menu):
-                    gotoMenu(obj)
+                if type(obj) is Menu:
+                    go_to_menu(obj)
                 else:
                     obj()
             if c == 'a':
                 obj = current_menu.getParent()
-                if (type(obj) is Menu):
-                    gotoMenu(obj)
+                if type(obj) is Menu:
+                    go_to_menu(obj)
                 else:
                     obj()
             break
@@ -173,32 +173,30 @@ def processInput():
             i = int(c) - 1
             if current_menu.checkPos(i):
                 obj = current_menu.choose(i)
-            if (type(obj) is Menu):
-                gotoMenu(obj)
-            else:
-                obj()
+                if type(obj) is Menu:
+                    go_to_menu(obj)
+                else:
+                    obj()
             break
-        if case(): # default
-            print("Incorrect Key") 
-            
+        if case():  # default
+            print("Incorrect Key")
+
+
 def main():
     hat.setStatusLED(True)
     micro.connect()
-    populateMenus()
+    populate_menus()
     hat.splash()
     time.sleep(4)
 
     rx_display_test()
-    
-    gotoMenu(menu_main)
-    while(True):
-        #processInput()
-        processButtonInput()
+
+    go_to_menu(menu_main)
+    while True:
+        # processInput()
+        process_button_input()
         show_menu()
 
+
 if __name__ == '__main__':
-	main()
-
-
-
-	
+    main()
