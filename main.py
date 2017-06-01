@@ -4,7 +4,7 @@ import time
 import string
 from menu import Menu
 from hat import Hat
-from switch import switch
+from switch import Switch
 from serialmicro import SerialMicro
 
 micro = SerialMicro()
@@ -44,33 +44,33 @@ def to_do():
 
 def micro_test():
     micro.flush()
-    print("Connected: {}".format(micro.isConnected()))
+    print("Connected: {}".format(micro.is_connected()))
     print("Sending t")
     micro.send('t')
-    print("Recieved: {}".format(micro.read()))
+    print("Received: {}".format(micro.read()))
     micro.send('v')
-    print("Recieved: {}".format(micro.read()))
+    print("Received: {}".format(micro.read()))
     time.sleep(0.5)
     micro.send('b')
 
 
 def rx_display_test():
     for x in range(0, 32):
-        hat.oled.displayRx(x, True, x)
+        hat.oled.display_rx(x, True, x)
         time.sleep(0.5)
     time.sleep(1)
 
 
 def hat_test():
-    hat.testHat()
+    hat.hat_test()
 
 
 def show_menu():
     os.system("clear")
     hat.displayMenu(current_menu)
-    print(current_menu.getTitle())
+    print(current_menu.get_title())
     x = 1
-    for l in current_menu.getLines():
+    for l in current_menu.get_lines():
         print("{}: {}".format(x, l))
         x += 1
 
@@ -86,37 +86,37 @@ def select():
 
 
 def populate_menus():
-    menu_main.addEntry("rxDisplay Test", rx_display_test)
-    menu_main.addEntry("IR Transmitter", menu_tx)
-    menu_main.addEntry("IR Receiver", menu_rx)
-    menu_main.addEntry("Micro Test", micro_test)
-    menu_main.addEntry("Terminal Test", terminal_test)
-    menu_main.addEntry("Hat Test", hat_test)
+    menu_main.add_entry("rxDisplay Test", rx_display_test)
+    menu_main.add_entry("IR Transmitter", menu_tx)
+    menu_main.add_entry("IR Receiver", menu_rx)
+    menu_main.add_entry("Micro Test", micro_test)
+    menu_main.add_entry("Terminal Test", terminal_test)
+    menu_main.add_entry("Hat Test", hat_test)
 
-    menu_tx.addEntry("Test C10 Tx", to_do)
-    menu_tx.addEntry("Test C16 Tx", to_do)
-    menu_rx.addEntry("Test C10 Rx", to_do)
-    menu_rx.addEntry("Test C16 Rx", to_do)
-    menu_rx.addEntry("Measure Power", to_do)
-    menu_rx.addEntry("Measure Power", to_do)
-    menu_rx.addEntry("Measure Power", to_do)
-    menu_rx.addEntry("Measure Power", to_do)
-    menu_shutdown.addEntry("Back to Main", menu_main)
-    menu_shutdown.addEntry("Shutdown", close)
+    menu_tx.add_entry("Test C10 Tx", to_do)
+    menu_tx.add_entry("Test C16 Tx", to_do)
+    menu_rx.add_entry("Test C10 Rx", to_do)
+    menu_rx.add_entry("Test C16 Rx", to_do)
+    menu_rx.add_entry("Measure Power", to_do)
+    menu_rx.add_entry("Measure Power", to_do)
+    menu_rx.add_entry("Measure Power", to_do)
+    menu_rx.add_entry("Measure Power", to_do)
+    menu_shutdown.add_entry("Back to Main", menu_main)
+    menu_shutdown.add_entry("Shutdown", close)
 
 
 def process_button_input():
     sleep_timer = 0
     shutdown_timer = 0
-    state = hat.getButtonState()
+    state = hat.get_button_state()
     while state == hat.NONE and sleep_timer < 500:
-        state = hat.getButtonState()
+        state = hat.get_button_state()
         sleep_timer += 1
         time.sleep(0.05)
     if sleep_timer >= 500:
         start_sleep()
         while state == hat.NONE and shutdown_timer < 500:
-            state = hat.getButtonState()
+            state = hat.get_button_state()
             shutdown_timer += 1
             time.sleep(0.05)
     if shutdown_timer >= 500:
@@ -126,7 +126,7 @@ def process_button_input():
     elif state == hat.DOWN:
         current_menu.down()
     elif state == hat.BACK:
-        obj = current_menu.getParent()
+        obj = current_menu.get_parent()
         if type(obj) is Menu:
             go_to_menu(obj)
         else:
@@ -145,7 +145,7 @@ def process_input():
         c = inp[0]
     else:
         c = ' '
-    for case in switch(c):
+    for case in Switch(c):
         if case(*string.ascii_lowercase):  # note the * for unpacking as arguments
             if c == 'x':
                 close()
@@ -163,7 +163,7 @@ def process_input():
                 else:
                     obj()
             if c == 'a':
-                obj = current_menu.getParent()
+                obj = current_menu.get_parent()
                 if type(obj) is Menu:
                     go_to_menu(obj)
                 else:
@@ -171,7 +171,7 @@ def process_input():
             break
         if case(*string.digits):
             i = int(c) - 1
-            if current_menu.checkPos(i):
+            if current_menu.check_pos(i):
                 obj = current_menu.choose(i)
                 if type(obj) is Menu:
                     go_to_menu(obj)
@@ -183,7 +183,7 @@ def process_input():
 
 
 def main():
-    hat.setStatusLED(True)
+    hat.set_status_led(True)
     micro.connect()
     populate_menus()
     hat.splash()

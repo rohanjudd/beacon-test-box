@@ -6,74 +6,75 @@ class Menu:
         self.pos = 0
         self.top = 0
 
-    def getParent(self):
-        return self.parent        
+    def get_parent(self):
+        return self.parent
 
-    def addEntry(self, desc, action):
+    def add_entry(self, desc, action):
         self.choices.append(Choice(desc, action))
-        
-    def getSize(self):
-        return len(self.choices)
-        
-    def checkPos(self, pos):
-        return (pos >= 0) and (pos < self.getSize())
-        
-    def choose(self, pos):
-        return self.choices[pos].getAction()
-            
-    def printmenu(self):
-        print(self.title)
-        for x in range(self.getSize()):
-            print("{}: {}" .format(x+1, self.choices[x].getDesc()))
 
-    def getLines(self):
+    def get_size(self):
+        return len(self.choices)
+
+    def check_pos(self, pos):
+        return (pos >= 0) and (pos < self.get_size())
+
+    def choose(self, pos):
+        return self.choices[pos].get_action()
+
+    def print_menu(self):
+        print(self.title)
+        for x in range(self.get_size()):
+            print("{}: {}".format(x + 1, self.choices[x].get_desc()))
+
+    def get_lines(self):
         lines = []
-        for x in range(self.getSize()):
-            lines.append(self.choices[x].getDesc())
+        for x in range(self.get_size()):
+            lines.append(self.choices[x].get_desc())
         return lines
 
-    def getVisibleLines(self):
+    def get_visible_lines(self):
         lines = []
         x = self.top
-        while x < self.top + 5 and x < self.getSize():
-            lines.append(self.choices[x].getDesc())
+        while x < self.top + 5 and x < self.get_size():
+            lines.append(self.choices[x].get_desc())
             x += 1
         return lines
 
-    def getVisiblePos(self):
+    def get_visible_pos(self):
         return self.pos - self.top
-        
-    def getTitle(self):
+
+    def get_title(self):
         return self.title
 
-    def getPos(self):
+    def get_pos(self):
         return self.pos
-    
+
     def up(self):
         if self.pos > 0:
             self.pos -= 1
             if self.pos < self.top:
                 self.top -= 1
-            
+
     def down(self):
-        if self.pos < self.getSize() - 1:
+        if self.pos < self.get_size() - 1:
             self.pos += 1
             if self.pos > self.top + 4:
                 self.top += 1
 
     def select(self):
-        return self.choices[self.pos].getAction()
+        return self.choices[self.pos].get_action()
+
 
 class Choice:
     def __init__(self, desc, action):
-        self.desc = desc
+        self.description = desc
         self.action = action
-       
-    def getDesc(self):
-        return self.desc
-        
-    def getAction(self):
-        return(self.action)
-        
-    def printDesc(self):
-        print(self.desc)
+
+    def get_desc(self):
+        return self.description
+
+    def get_action(self):
+        return self.action
+
+    def print_description(self):
+        print(self.description)

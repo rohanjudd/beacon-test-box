@@ -2,8 +2,8 @@ import Adafruit_GPIO as GPIO
 import time
 from oled import Oled
 
+
 class Hat:
-    
     STATUS_PIN = 5
     FAIL_PIN = 6
     PASS_PIN = 13
@@ -19,7 +19,7 @@ class Hat:
     SELECT = 4
 
     DEFAULT_FLASH = 0.2
-    
+
     def __init__(self):
         self.oled = Oled()
         self.gpio = GPIO.get_platform_gpio()
@@ -35,36 +35,36 @@ class Hat:
 
         self.lastButtonState = self.NONE
 
-    def setStatusLED(self, state):
+    def set_status_led(self, state):
         self.gpio.output(self.STATUS_PIN, state)
 
-    def setFailLED(self, state):
+    def set_fail_led(self, state):
         self.gpio.output(self.FAIL_PIN, state)
 
-    def setPassLED(self, state):
+    def set_pass_led(self, state):
         self.gpio.output(self.PASS_PIN, state)
 
-    def getUPstate(self):
+    def get_up_state(self):
         return not self.gpio.input(self.UP_PIN)
 
-    def getDOWNstate(self):
+    def get_down_state(self):
         return not self.gpio.input(self.DOWN_PIN)
 
-    def getBACKstate(self):
+    def get_back_state(self):
         return not self.gpio.input(self.BACK_PIN)
 
-    def getSELECTstate(self):
+    def get_select_state(self):
         return not self.gpio.input(self.SELECT_PIN)
 
-    def getButtonState(self):
+    def get_button_state(self):
         state = self.NONE
-        if self.getUPstate():
+        if self.get_up_state():
             state = self.UP
-        elif self.getDOWNstate():
+        elif self.get_down_state():
             state = self.DOWN
-        elif self.getBACKstate():
+        elif self.get_back_state():
             state = self.BACK
-        elif self.getSELECTstate():
+        elif self.get_select_state():
             state = self.SELECT
         if state == self.lastButtonState:
             self.lastButtonState = state
@@ -72,87 +72,40 @@ class Hat:
         self.lastButtonState = state
         return state
 
-    def testHat(self):
-        self.setLEDs(True)
+    def hat_test(self):
+        self.set_leds(True)
         time.sleep(0.5)
-        self.setLEDs(False)
+        self.set_leds(False)
 
-    def setLEDs(self, state):
-        self.setStatusLED(state)
-        self.setFailLED(state)
-        self.setPassLED(state)
-        
-    def flashStatus(self):
-        self.setStatusLED(True)
+    def set_leds(self, state):
+        self.set_status_led(state)
+        self.set_fail_led(state)
+        self.set_pass_led(state)
+
+    def flash_status(self):
+        self.set_status_led(True)
         time.sleep(0.2)
-        self.setStatusLED(False)
+        self.set_status_led(False)
 
-    def flashFail(self):
-        self.setFailLED(True)
+    def flash_fail(self):
+        self.set_fail_led(True)
         time.sleep(0.2)
-        self.setFailLED(False)
+        self.set_fail_led(False)
 
-    def flashPass(self):
-        self.setPassLED(True)
+    def flash_pass(self):
+        self.set_pass_led(True)
         time.sleep(0.2)
-        self.setPassLED(False)
-
-    def splash(self):
-        self.oled.splash()
-
-    def clear(self):
-        self.oled.clear()
-            
-    def refresh(self):
-        self.oled.refresh()
-
-    def widthCheck(self, text):
-        return self.oled.widthCheck(text)
-
-    def displayTerminal(self):
-        self.oled.displayTerminal()
-        
-    def newTerminal(self):
-        self.oled.startTerminal()
-            
-    def write(self, text):
-        self.oled.write(text)
-
-    def writeln(self, text):
-        self.oled.writeln(text)
-
-    def displayMenu(self, menu):
-        self.oled.displayMenu(menu)
-
-    def displayNotification(self, text):
-        self.oled.displayNotification(text)
-
-    def displayRx(self, code, split, lap):
-        self.oled.displayRx(code, lap)
+        self.set_pass_led(False)
 
     def shutdown(self):
-        self.oled.startTerminal()
-        self.oled.displayNotification("Shutting Down")
+        self.oled.start_terminal()
+        self.oled.display_notification("Shutting Down")
         time.sleep(1)
         self.oled.blank()
-        self.setLEDs(False)
+        self.set_leds(False)
 
     def sleep(self):
-        self.oled.startTerminal()
-        self.oled.displayNotification("Going to Sleep")
+        self.oled.start_terminal()
+        self.oled.display_notification("Going to Sleep")
         time.sleep(1)
         self.oled.blank()
-    
-
-        
-        
-
-        
-
-
-
-
-
-
-
-
