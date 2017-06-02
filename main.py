@@ -2,6 +2,7 @@
 import os
 import time
 import string
+import constants
 from menu import Menu
 from hat import Hat
 from switch import Switch
@@ -31,15 +32,15 @@ current_menu = menu_main
 
 
 def terminal_test():
-    hat.oled.start_terminal()
+    hat.start_terminal()
     for x in range(10):
-        hat.oled.write("abcdefghijklmnopqrstuvwxyz")
+        hat.write("abcdefghijklmnopqrstuvwxyz")
         time.sleep(0.2)
 
 
 def to_do():
     print("To Do")
-    hat.oled.display_notification("To Do")
+    hat.display_notification("To Do")
 
 
 def micro_test():
@@ -56,7 +57,7 @@ def micro_test():
 
 def rx_display_test():
     for x in range(0, 32):
-        hat.oled.display_rx(x, True, x)
+        hat.display_rx(x, True, x)
         time.sleep(0.05)
     time.sleep(1)
 
@@ -67,7 +68,7 @@ def hat_test():
 
 def show_menu():
     os.system("clear")
-    hat.oled.display_menu(current_menu)
+    hat.display_menu(current_menu)
     print(current_menu.get_title())
     x = 1
     for l in current_menu.get_lines():
@@ -109,29 +110,29 @@ def process_button_input():
     sleep_timer = 0
     shutdown_timer = 0
     state = hat.get_button_state()
-    while state == hat.NONE and sleep_timer < 500:
+    while state == constants.NONE and sleep_timer < 500:
         state = hat.get_button_state()
         sleep_timer += 1
         time.sleep(0.05)
     if sleep_timer >= 500:
         start_sleep()
-        while state == hat.NONE and shutdown_timer < 500:
+        while state == constants.NONE and shutdown_timer < 500:
             state = hat.get_button_state()
             shutdown_timer += 1
             time.sleep(0.05)
     if shutdown_timer >= 500:
         close()
-    if state == hat.UP:
+    if state == constants.UP:
         current_menu.up()
-    elif state == hat.DOWN:
+    elif state == constants.DOWN:
         current_menu.down()
-    elif state == hat.BACK:
+    elif state == constants.BACK:
         obj = current_menu.get_parent()
         if type(obj) is Menu:
             go_to_menu(obj)
         else:
             obj()
-    elif state == hat.SELECT:
+    elif state == constants.SELECT:
         obj = current_menu.select()
         if type(obj) is Menu:
             go_to_menu(obj)
@@ -183,10 +184,10 @@ def process_input():
 
 
 def main():
-    hat.set_status_led(True)
+    hat.set_led_states(status=True)
     micro.connect()
     populate_menus()
-    hat.oled.splash()
+    hat.splash()
     time.sleep(4)
 
     rx_display_test()
