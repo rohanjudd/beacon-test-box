@@ -5,6 +5,12 @@ import Adafruit_GPIO.SPI as SPI
 import Adafruit_SSD1306
 from PIL import Image, ImageDraw, ImageFont
 
+font_10 = ImageFont.truetype('./Fonts/mono.ttf', 10)
+font_13 = ImageFont.truetype('./Fonts/pixel.ttf', 13)
+font_16 = ImageFont.truetype('./Fonts/madness.ttf', 16)
+font_32 = ImageFont.truetype('./Fonts/madness.ttf', 32)
+font_64 = ImageFont.truetype('./Fonts/madness.ttf', 64)
+
 
 def get_letter_and_split(code):
     split = False
@@ -27,7 +33,7 @@ class Hat:
         self.image = Image.new('1', (constants.WIDTH, constants.HEIGHT))
         self.draw = ImageDraw.Draw(self.image)
 
-        self.terminal_screen = TerminalScreen(constants.NUM_LINES, constants.font_13)
+        self.terminal_screen = TerminalScreen(constants.NUM_LINES, font_13)
         self.menu_Screen = MenuScreen(5, self.draw)
         self.disp.display()
 
@@ -122,7 +128,7 @@ class Hat:
         self.clear()
         x = 0
         for l in self.terminal_screen.get_lines():
-            self.draw_text(l, constants.font_13, constants.X_INDENT, x * constants.LINE_SPACING + constants.Y_INDENT)
+            self.draw_text(l, font_13, constants.X_INDENT, x * constants.LINE_SPACING + constants.Y_INDENT)
             x += 1
         self.refresh()
 
@@ -151,7 +157,7 @@ class Hat:
 
     def display_notification(self, text):
         self.clear()
-        self.draw_text(text, constants.font_10, 3, 26)
+        self.draw_text(text, font_10, 3, 26)
         self.refresh()
         time.sleep(1)
 
@@ -160,13 +166,13 @@ class Hat:
         tup = get_letter_and_split(code)
         letter = tup[0]
         split = tup[1]
-        self.draw_text(letter, constants.font_64, 0, -4)
+        self.draw_text(letter, font_64, 0, -4)
         if split:
-            self.draw_text("SPLIT", constants.font_32, 40, -4)
+            self.draw_text("SPLIT", font_32, 40, -4)
         if lap:
-            self.draw_text("LAP", constants.font_32, 40, 16)
-        self.draw_text("0123456789ABCDEF", constants.font_16, 2, 46)
-        self.draw_text("{0:b}".format(codes_done), constants.font_16, 2, 54)
+            self.draw_text("LAP", font_32, 40, 16)
+        self.draw_text("0123456789ABCDEF", font_16, 2, 46)
+        self.draw_text("{0:b}".format(codes_done), font_16, 2, 54)
         self.refresh()
 
 
@@ -195,9 +201,9 @@ class MenuScreen:
             if i == pos:
                 self.draw.rectangle((0, self.get_line_pos(pos) + 1, constants.WIDTH, self.get_line_pos(pos) + 1 +
                                      self.line_spacing), outline=0, fill=255)
-                self.draw_text(l, constants.font_10, self.x_indent, self.get_line_pos(i) + 1, invert=True)
+                self.draw_text(l, font_10, self.x_indent, self.get_line_pos(i) + 1, invert=True)
             else:
-                self.draw_text(l, constants.font_10, self.x_indent, self.get_line_pos(i) + 1)
+                self.draw_text(l, font_10, self.x_indent, self.get_line_pos(i) + 1)
             i += 1
 
 

@@ -12,11 +12,7 @@ DOWN = 2
 BACK = 3
 SELECT = 4
 
-font_10 = ImageFont.truetype('./Fonts/mono.ttf', 10)
-font_13 = ImageFont.truetype('./Fonts/pixel.ttf', 13)
-font_16 = ImageFont.truetype('./Fonts/madness.ttf', 16)
-font_32 = ImageFont.truetype('./Fonts/madness.ttf', 32)
-font_64 = ImageFont.truetype('./Fonts/madness.ttf', 64)
+
 
 WIDTH = 128
 HEIGHT = 64
