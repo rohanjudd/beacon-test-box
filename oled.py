@@ -3,12 +3,12 @@ import Adafruit_GPIO.SPI as SPI
 import Adafruit_SSD1306
 from PIL import Image, ImageDraw, ImageFont
 
-font_small = ImageFont.truetype('./Fonts/pixelade.ttf', 13)
-font_medium = ImageFont.truetype('./Fonts/madness.ttf', 32)
-font_large = ImageFont.truetype('./Fonts/madness.ttf', 64)
-font_a = ImageFont.truetype('./Fonts/rainyhearts.ttf', 16)
-font_b = ImageFont.truetype('./Fonts/mono.ttf', 10)
-font_c = ImageFont.truetype('./Fonts/madness.ttf', 16)
+font_10 = ImageFont.truetype('./Fonts/mono.ttf', 10)
+font_13 = ImageFont.truetype('./Fonts/pixel.ttf', 13)
+font_16 = ImageFont.truetype('./Fonts/madness.ttf', 16)
+font_32 = ImageFont.truetype('./Fonts/madness.ttf', 32)
+font_64 = ImageFont.truetype('./Fonts/madness.ttf', 64)
+
 
 WIDTH = 128
 HEIGHT = 64
@@ -40,7 +40,7 @@ class Oled:
         self.image = Image.new('1', (WIDTH, HEIGHT))
         self.draw = ImageDraw.Draw(self.image)
 
-        self.terminal_screen = TerminalScreen(self.NUM_LINES, font_small)
+        self.terminal_screen = TerminalScreen(self.NUM_LINES, font_13)
         self.menu_Screen = MenuScreen(5, self.draw)
         self.disp.display()
 
@@ -73,7 +73,7 @@ class Oled:
         self.clear()
         x = 0
         for l in self.terminal_screen.get_lines():
-            self.draw_text(l, font_small, self.X_INDENT, x * self.LINE_SPACING + self.Y_INDENT)
+            self.draw_text(l, font_13, self.X_INDENT, x * self.LINE_SPACING + self.Y_INDENT)
             x += 1
         self.refresh()
 
@@ -102,7 +102,7 @@ class Oled:
 
     def display_notification(self, text):
         self.clear()
-        self.draw_text(text, font_b, 3, 26)
+        self.draw_text(text, font_10, 3, 26)
         self.refresh()
         time.sleep(1)
 
@@ -111,13 +111,13 @@ class Oled:
         tup = get_letter_and_split(code)
         letter = tup[0]
         split = tup[1]
-        self.draw_text(letter, font_large, 0, -4)
+        self.draw_text(letter, font_64, 0, -4)
         if split:
-            self.draw_text("SPLIT", font_medium, 40, -4)
+            self.draw_text("SPLIT", font_32, 40, -4)
         if lap:
-            self.draw_text("LAP", font_medium, 40, 16)
-        self.draw_text("0123456789ABCDEF", font_c, 2, 46)
-        self.draw_text("{0:b}".format(codes_done), font_c, 2, 54)
+            self.draw_text("LAP", font_32, 40, 16)
+        self.draw_text("0123456789ABCDEF", font_16, 2, 46)
+        self.draw_text("{0:b}".format(codes_done), font_16, 2, 54)
         self.refresh()
 
 
@@ -146,9 +146,9 @@ class MenuScreen:
             if i == pos:
                 self.draw.rectangle((0, self.get_line_pos(pos) + 1, WIDTH, self.get_line_pos(pos) + 1 +
                                      self.line_spacing), outline=0, fill=255)
-                self.draw_text(l, font_b, self.x_indent, self.get_line_pos(i) + 1, invert=True)
+                self.draw_text(l, font_10, self.x_indent, self.get_line_pos(i) + 1, invert=True)
             else:
-                self.draw_text(l, font_b, self.x_indent, self.get_line_pos(i) + 1)
+                self.draw_text(l, font_10, self.x_indent, self.get_line_pos(i) + 1)
             i += 1
 
 
