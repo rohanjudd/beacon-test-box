@@ -1,6 +1,6 @@
-import Adafruit_GPIO as GPIO
 import time
 import constants
+import Adafruit_GPIO as GPIO
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_SSD1306
 from PIL import Image, ImageDraw, ImageFont
@@ -27,6 +27,9 @@ def width_check(font, text):
 
 class Hat:
     def __init__(self):
+
+        self.gpio = GPIO.get_platform_gpio()
+        
         self.disp = Adafruit_SSD1306.SSD1306_128_64(rst=24, dc=23, spi=SPI.SpiDev(0, 0, max_speed_hz=8000000))
         self.disp.begin()
 
@@ -37,7 +40,7 @@ class Hat:
         self.menu_Screen = MenuScreen(5, self.draw)
         self.disp.display()
 
-        self.gpio = GPIO.get_platform_gpio()
+        
 
         self.gpio.setup(constants.STATUS_PIN, GPIO.OUT)
         self.gpio.setup(constants.RED_PIN, GPIO.OUT)
