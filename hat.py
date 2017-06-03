@@ -25,31 +25,29 @@ def width_check(font, text):
     return font.getsize(text)[0] <= constants.WIDTH
 
 
+def get_line_pos(i):
+    return i * constants.MENU_LINE_SPACING + constants.MENU_Y_INDENT
+
+
 class Hat:
     def __init__(self):
 
         self.gpio = GPIO.get_platform_gpio()
-        
-        self.disp = Adafruit_SSD1306.SSD1306_128_64(rst=24, dc=23, spi=SPI.SpiDev(0, 0, max_speed_hz=8000000))
-        self.disp.begin()
-
-        self.image = Image.new('1', (constants.WIDTH, constants.HEIGHT))
-        self.draw = ImageDraw.Draw(self.image)
-
-        self.terminal_screen = TerminalScreen(constants.NUM_LINES, font_13)
-        self.menu_Screen = MenuScreen(5, self.draw)
-        self.disp.display()
-
-        
-
         self.gpio.setup(constants.STATUS_PIN, GPIO.OUT)
         self.gpio.setup(constants.RED_PIN, GPIO.OUT)
         self.gpio.setup(constants.GREEN_PIN, GPIO.OUT)
-
         self.gpio.setup(constants.UP_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         self.gpio.setup(constants.DOWN_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         self.gpio.setup(constants.BACK_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         self.gpio.setup(constants.SELECT_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        
+        self.disp = Adafruit_SSD1306.SSD1306_128_64(rst=24, dc=23, spi=SPI.SpiDev(0, 0, max_speed_hz=8000000))
+        self.disp.begin()
+        self.image = Image.new('1', (constants.WIDTH, constants.HEIGHT))
+        self.draw = ImageDraw.Draw(self.image)
+
+        self.terminal_screen = TerminalScreen(constants.TERMINAL_NUM_LINES, font_13)
+        self.disp.display()
 
         self.lastButtonState = constants.NONE
 
@@ -131,7 +129,8 @@ class Hat:
         self.clear()
         x = 0
         for l in self.terminal_screen.get_lines():
-            self.draw_text(l, font_13, constants.X_INDENT, x * constants.LINE_SPACING + constants.Y_INDENT)
+            self.draw_text(l, font_13, constants.TERMINAL_X_INDENT, x * constants.TERMINAL_LINE_SPACING +
+                           constants.TERMINAL_Y_INDENT)
             x += 1
         self.refresh()
 
@@ -153,11 +152,6 @@ class Hat:
         else:
             self.draw.text((x, y), text, font=font, fill=0)
 
-    def display_menu(self, menu):
-        self.clear()
-        self.menu_Screen.display(menu)
-        self.refresh()
-
     def display_notification(self, text):
         self.clear()
         self.draw_text(text, font_10, 3, 26)
@@ -178,36 +172,20 @@ class Hat:
         self.draw_text("{0:b}".format(codes_done), font_16, 2, 54)
         self.refresh()
 
-
-class MenuScreen:
-    def __init__(self, num_lines, draw):
-        self.num_lines = num_lines
-        self.draw = draw
-        self.line_spacing = 12
-        self.y_indent = -2
-        self.x_indent = 2
-
-    def draw_text(self, text, font, x, y, invert=False):
-        if invert:
-            self.draw.text((x, y), text, font=font, fill=0)
-        else:
-            self.draw.text((x, y), text, font=font, fill=255)
-
-    def get_line_pos(self, i):
-        return i * self.line_spacing + self.y_indent
-
-    def display(self, menu):
+    def display_menu(self, menu):
+        self.clear()
         pos = menu.get_visible_pos()
         lines = menu.get_visible_lines()
         i = 0
         for l in lines:
             if i == pos:
-                self.draw.rectangle((0, self.get_line_pos(pos) + 1, constants.WIDTH, self.get_line_pos(pos) + 1 +
-                                     self.line_spacing), outline=0, fill=255)
-                self.draw_text(l, font_10, self.x_indent, self.get_line_pos(i) + 1, invert=True)
+                self.draw.rectangle((0, get_line_pos(pos) + 1, constants.WIDTH, get_line_pos(pos) + 1 +
+                                     constants.MENU_LINE_SPACING), outline=0, fill=255)
+                self.draw_text(l, font_10, constants.MENU_X_INDENT, get_line_pos(i) + 1, invert=True)
             else:
-                self.draw_text(l, font_10, self.x_indent, self.get_line_pos(i) + 1)
+                self.draw_text(l, font_10, constants.MENU_X_INDENT, get_line_pos(i) + 1)
             i += 1
+        self.refresh()
 
 
 class TerminalScreen:
