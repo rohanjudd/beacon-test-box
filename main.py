@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import os
 import time
 import string
@@ -188,13 +188,9 @@ def main():
     micro.connect()
     populate_menus()
     hat.splash()
-    time.sleep(4)
-
-    rx_display_test()
-
+    time.sleep(1)
     go_to_menu(menu_main)
     while True:
-        # processInput()
         process_button_input()
         show_menu()
 

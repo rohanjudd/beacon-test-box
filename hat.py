@@ -40,6 +40,7 @@ class Hat:
         self.gpio.setup(constants.DOWN_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         self.gpio.setup(constants.BACK_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         self.gpio.setup(constants.SELECT_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        self.lastButtonState = constants.NONE
         
         self.disp = Adafruit_SSD1306.SSD1306_128_64(rst=24, dc=23, spi=SPI.SpiDev(0, 0, max_speed_hz=8000000))
         self.disp.begin()
@@ -48,8 +49,6 @@ class Hat:
 
         self.terminal_screen = TerminalScreen(constants.TERMINAL_NUM_LINES, font_13)
         self.disp.display()
-
-        self.lastButtonState = constants.NONE
 
     def set_led_states(self, status=False, red=False, green=False):
         self.gpio.output(constants.STATUS_PIN, status)
@@ -174,8 +173,8 @@ class Hat:
 
     def display_menu(self, menu):
         self.clear()
-        pos = menu.get_visible_pos()
-        lines = menu.get_visible_lines()
+        pos = menu.get_screen_pos()
+        lines = menu.get_screen_lines()
         i = 0
         for l in lines:
             if i == pos:

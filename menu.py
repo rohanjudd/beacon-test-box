@@ -32,7 +32,7 @@ class Menu:
             lines.append(self.choices[x].get_desc())
         return lines
 
-    def get_visible_lines(self):
+    def get_screen_lines(self):
         lines = []
         x = self.top
         while x < self.top + 5 and x < self.get_size():
@@ -40,14 +40,8 @@ class Menu:
             x += 1
         return lines
 
-    def get_visible_pos(self):
+    def get_screen_pos(self):
         return self.pos - self.top
-
-    def get_title(self):
-        return self.title
-
-    def get_pos(self):
-        return self.pos
 
     def up(self):
         if self.pos > 0:
