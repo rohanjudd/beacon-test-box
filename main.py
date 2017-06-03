@@ -58,7 +58,7 @@ def micro_test():
 def rx_display_test():
     for x in range(0, 32):
         hat.display_rx(x, True, x)
-        time.sleep(0.05)
+        time.sleep(0.02)
     time.sleep(1)
 
 
@@ -69,7 +69,7 @@ def hat_test():
 def show_menu():
     os.system("clear")
     hat.display_menu(current_menu)
-    print(current_menu.get_title())
+    print(current_menu.title)
     x = 1
     for l in current_menu.get_lines():
         print("{}: {}".format(x, l))
