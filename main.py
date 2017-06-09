@@ -6,7 +6,7 @@ import constants
 from menu import Menu
 from hat import Hat
 from switch import Switch
-from serialmicro import SerialMicro
+from micro import SerialMicro
 
 micro = SerialMicro()
 hat = Hat()
@@ -82,10 +82,6 @@ def go_to_menu(menu):
     show_menu()
 
 
-def select():
-    print("SELECT")
-
-
 def populate_menus():
     menu_main.add_entry("rxDisplay Test", rx_display_test)
     menu_main.add_entry("IR Transmitter", menu_tx)
@@ -99,9 +95,7 @@ def populate_menus():
     menu_rx.add_entry("Test C10 Rx", to_do)
     menu_rx.add_entry("Test C16 Rx", to_do)
     menu_rx.add_entry("Measure Power", to_do)
-    menu_rx.add_entry("Measure Power", to_do)
-    menu_rx.add_entry("Measure Power", to_do)
-    menu_rx.add_entry("Measure Power", to_do)
+
     menu_shutdown.add_entry("Back to Main", menu_main)
     menu_shutdown.add_entry("Shutdown", close)
 
@@ -147,7 +141,7 @@ def process_input():
     else:
         c = ' '
     for case in Switch(c):
-        if case(*string.ascii_lowercase):  # note the * for unpacking as arguments
+        if case(*string.ascii_lowercase):
             if c == 'x':
                 close()
                 break

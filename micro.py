@@ -1,4 +1,5 @@
 import serial
+import time
 from serial import SerialException
 
 PORT = '/dev/ttyUSB1'
@@ -46,3 +47,24 @@ class SerialMicro:
 
     def check_version(self):
         pass
+
+    def ir_transmit(self, code, mode, repeat):
+        message = "TRANSMIT {} {} {}".format(code,mode,repeat)
+        self.send(message)
+
+    def ir_receive_once(self, code, mode):
+        message = "TRANSMIT {} {} {}".format(code, mode)
+        self.send(message)
+        time.sleep(0.2)
+        return self.read() == "True"
+
+    def ir_receive_repeat(self, code, mode):
+        pass
+
+    def button_check(self):
+        message = "BUTTON"
+        self.send(message)
+        time.sleep(0.2)
+        return self.read() == "True"
+
+
