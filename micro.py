@@ -50,6 +50,7 @@ class SerialMicro:
 
     def ir_transmit(self, code, mode, repeat):
         message = "TRANSMIT {} {} {}".format(code,mode,repeat)
+        print(message)
         self.send(message)
 
     def ir_receive_once(self, code, mode):

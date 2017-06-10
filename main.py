@@ -43,6 +43,10 @@ def to_do():
     hat.display_notification("To Do")
 
 
+def tx_test():
+    micro.ir_transmit(1,1,True)
+
+
 def micro_test():
     micro.flush()
     print("Connected: {}".format(micro.is_connected()))
@@ -90,7 +94,7 @@ def populate_menus():
     menu_main.add_entry("Terminal Test", terminal_test)
     menu_main.add_entry("Hat Test", hat_test)
 
-    menu_tx.add_entry("Test C10 Tx", to_do)
+    menu_tx.add_entry("Test C10 Tx", tx_test)
     menu_tx.add_entry("Test C16 Tx", to_do)
     menu_rx.add_entry("Test C10 Rx", to_do)
     menu_rx.add_entry("Test C16 Rx", to_do)

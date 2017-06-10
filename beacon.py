@@ -9,6 +9,7 @@ class Beacon:
         self.split = False
         self.codes_done = [0] * 32
 
+
     def new_code(self, code):
         if code > 0 and code < 32:
             self.code = code
