@@ -45,6 +45,7 @@ def to_do():
 
 def tx_test():
     micro.ir_transmit(1,1,True)
+    time.sleep(1)
 
 
 def micro_test():
