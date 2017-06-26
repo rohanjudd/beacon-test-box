@@ -33,6 +33,7 @@ class Micro:
         if self.is_connected():
             print("sending: {}".format(message))
             #self.ser.write(message)
+            print(message.encode())
             self.ser.write(message.encode())
         else:
             print("Serial not Connected")
