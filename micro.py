@@ -38,7 +38,8 @@ class Micro:
 
     def read(self):
         if self.is_connected():
-            return self.ser.readline().decode().strip()
+            return self.ser.readline()
+            #return self.ser.readline().decode().strip()
         else:
             print("Serial not Connected")
             return ""

@@ -31,7 +31,8 @@ MENU_Y_INDENT = -2
 MENU_NUM_LINES = 6
 
 """Serial Comms"""
-PORT = 'usb-FTDI_FT232R_USB_UART_A904TIS2-if00-port0'
+#PORT = '/dev/ttyUSB0'
+PORT = '/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A904TIS2-if00-port0'
 BAUD_RATE = 115200
 TIMEOUT = 1
 
