@@ -50,14 +50,14 @@ def tx_test():
 def micro_test():
     micro.flush()
     print("Connected: {}".format(micro.is_connected()))
-    print("Sending t")
-    micro.send('t')
-    time.sleep(0.2)
-    print("Received: {}".format(micro.read()))
-    micro.send('v')
-    time.sleep(0.2)
-    print("Received: {}".format(micro.read()))
-    time.sleep(0.5)
+    #print("Sending t")
+    #micro.send('t')
+    #time.sleep(0.2)
+    #print("Received: {}".format(micro.read()))
+    #micro.send('v')
+    #time.sleep(0.2)
+    #print("Received: {}".format(micro.read()))
+    #time.sleep(0.5)
     micro.send('b')
 
 
@@ -187,8 +187,8 @@ def main():
     hat.set_led_states(status=True)
     micro.connect()
     populate_menus()
-    hat.splash()
-    time.sleep(1)
+    #hat.splash()
+    #time.sleep(1)
     go_to_menu(menu_main)
     while True:
         process_button_input()
