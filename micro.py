@@ -1,24 +1,21 @@
 import serial
 import time
 from serial import SerialException
-
-PORT = '/dev/ttyUSB1'
-BAUD_RATE = 115200
-TIMEOUT = 1
+import constants
 
 
-class SerialMicro:
+class Micro:
     def __init__(self):
         self.ser = serial.Serial()
-        self.ser.port = PORT
-        self.ser.baud_rate = BAUD_RATE
-        self.ser.timeout = TIMEOUT
+        self.ser.port = constants.PORT
+        self.ser.baud_rate = constants.BAUD_RATE
+        self.ser.timeout = constants.TIMEOUT
 
     def connect(self):
         try:
             self.ser.open()
         except SerialException:
-            print("{} not found".format(PORT))
+            print("{} not found".format(constants.PORT))
 
     def disconnect(self):
         self.ser.close()
@@ -34,6 +31,7 @@ class SerialMicro:
 
     def send(self, message):
         if self.is_connected():
+            print("sending: {}".format(message))
             self.ser.write(message.encode())
         else:
             print("Serial not Connected")
@@ -48,14 +46,23 @@ class SerialMicro:
     def check_version(self):
         pass
 
-    def ir_transmit(self, code, mode, repeat):
-        message = "TRANSMIT {} {} {}".format(code,mode,repeat)
-        print(message)
-        self.send(message)
+    def set_ir_mode(self, mode):
+        if mode:
+            self.send(constants.SET_MODE_C10)
+        else:
+            self.send(constants.SET_MODE_C10)
 
-    def ir_receive_once(self, code, mode):
-        message = "TRANSMIT {} {} {}".format(code, mode)
-        self.send(message)
+    def set_ir_code(self, code):
+        if code:
+            self.send("C16_MODE")
+        else:
+            self.send("C10_MODE")
+
+    def ir_transmit(self):
+        self.send(constants.TRANSMIT)
+
+    def ir_receive_once(self):
+        self.send(constants.RECIEVE)
         time.sleep(0.2)
         return self.read() == "True"
 
@@ -63,8 +70,7 @@ class SerialMicro:
         pass
 
     def button_check(self):
-        message = "BUTTON"
-        self.send(message)
+        self.send(constants.GET_BUTTON_PRESS)
         time.sleep(0.2)
         return self.read() == "True"
 

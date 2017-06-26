@@ -6,9 +6,9 @@ import constants
 from menu import Menu
 from hat import Hat
 from switch import Switch
-from micro import SerialMicro
+from micro import Micro
 
-micro = SerialMicro()
+micro = Micro()
 hat = Hat()
 
 
@@ -19,16 +19,15 @@ def close():
     quit()
 
 
-def start_sleep():
-    print("Going to Sleep")
-    hat.sleep()
-
-
 menu_shutdown = Menu("Shutdown", close)
 menu_main = Menu("Main Test Box Menu", menu_shutdown)
 menu_rx = Menu("IR Receiver", menu_main)
 menu_tx = Menu("IR Transmitter", menu_main)
 current_menu = menu_main
+
+def start_sleep():
+    print("Going to Sleep")
+    hat.sleep()
 
 
 def terminal_test():

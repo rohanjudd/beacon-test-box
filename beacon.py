@@ -1,5 +1,4 @@
-C10 = 0
-C16 = 1
+import constants
 
 
 class Beacon:
