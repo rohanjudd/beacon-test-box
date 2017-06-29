@@ -8,7 +8,7 @@ class Micro:
     def __init__(self):
         self.ser = serial.Serial()
         self.ser.port = constants.PORT
-        self.ser.baud_rate = constants.BAUD_RATE
+        self.ser.baudrate = constants.BAUD_RATE
         self.ser.timeout = constants.TIMEOUT
 
     def connect(self):
@@ -32,9 +32,9 @@ class Micro:
     def send(self, message):
         if self.is_connected():
             print("sending: {}".format(message))
-            #self.ser.write(message)
-            print(message.encode())
-            self.ser.write(message.encode())
+            self.ser.write(message)
+            #print(message.encode())
+            #self.ser.write(message.encode())
         else:
             print("Serial not Connected")
 
