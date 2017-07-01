@@ -7,6 +7,7 @@ from menu import Menu
 from hat import Hat
 from switch import Switch
 from micro import Micro
+import Beacon
 
 micro = Micro()
 hat = Hat()
@@ -22,6 +23,7 @@ menu_shutdown = Menu("Shutdown", close)
 menu_main = Menu("Main Test Box Menu", menu_shutdown)
 menu_rx = Menu("IR Receiver", menu_main)
 menu_tx = Menu("IR Transmitter", menu_main)
+menu_debug = Menu("Debug", menu_main)
 current_menu = menu_main
 
 def start_sleep():
@@ -51,6 +53,11 @@ def start_up():
 
 def delay():
     time.sleep(constants.STARTUP_DELAY)
+
+def internal_receiver_test():
+    beacon = Beacon.InternalRxBeacon(constants.MODE_C16, micro)
+    beacon.start_listening()
+
 
 def terminal_test():
     hat.start_terminal()
@@ -108,12 +115,15 @@ def go_to_menu(menu):
 
 
 def populate_menus():
-    menu_main.add_entry("rxDisplay Test", rx_display_test)
+    menu_main.add_entry("Debug", menu_debug)
     menu_main.add_entry("IR Transmitter", menu_tx)
     menu_main.add_entry("IR Receiver", menu_rx)
-    menu_main.add_entry("Micro Test", micro_test)
-    menu_main.add_entry("Terminal Test", terminal_test)
-    menu_main.add_entry("Hat Test", hat_test)
+
+    menu_debug.add_entry("Internal Rx Test", internal_receiver_test())
+    menu_debug.add_entry("rxDisplay Test", rx_display_test)
+    menu_debug.add_entry("Micro Test", micro_test)
+    menu_debug.add_entry("Terminal Test", terminal_test)
+    menu_debug.add_entry("Hat Test", hat_test)
 
     menu_tx.add_entry("Test C10 Tx", tx_test)
     menu_tx.add_entry("Test C16 Tx", to_do)

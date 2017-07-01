@@ -1,4 +1,5 @@
 import constants
+import time
 
 
 class Beacon:
@@ -26,8 +27,16 @@ class ExternalRxBeacon(Beacon):
 
 
 class InternalRxBeacon(Beacon):
-    def __init__(self, mode):
+    def __init__(self, mode, mic):
+        self.micro = mic
         Beacon.__init__(mode)
+
+    def start_listening(self):
+        self.micro.send(constants.RECEIVE_REPEAT)
+        time.sleep(0.1)
+        while True:
+            print(self.micro.read())
+
 
 
 class InternalTxBeacon(Beacon):
