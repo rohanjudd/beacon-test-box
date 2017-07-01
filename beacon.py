@@ -18,7 +18,7 @@ class Beacon:
 
 class ExternalRxBeacon(Beacon):
     def __init__(self, mode):
-        Beacon.__init__(mode)
+        Beacon.__init__(self, mode)
         self.lap = False
         self.led = False
         self.codes_passed = [0] * 32
@@ -29,7 +29,7 @@ class ExternalRxBeacon(Beacon):
 class InternalRxBeacon(Beacon):
     def __init__(self, mode, mic):
         self.micro = mic
-        Beacon.__init__(mode)
+        Beacon.__init__(self, mode)
 
     def start_listening(self):
         self.micro.send(constants.RECEIVE_REPEAT)
@@ -41,11 +41,11 @@ class InternalRxBeacon(Beacon):
 
 class InternalTxBeacon(Beacon):
     def __init__(self, mode):
-        Beacon.__init__(mode)
+        Beacon.__init__(self, mode)
 
 
 class ExternalTxBeacon(Beacon):
     def __init__(self, mode):
-        Beacon.__init__(mode)
+        Beacon.__init__(self, mode)
 
 

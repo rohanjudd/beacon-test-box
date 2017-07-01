@@ -7,7 +7,7 @@ from menu import Menu
 from hat import Hat
 from switch import Switch
 from micro import Micro
-import Beacon
+import beacon
 
 micro = Micro()
 hat = Hat()
@@ -55,8 +55,8 @@ def delay():
     time.sleep(constants.STARTUP_DELAY)
 
 def internal_receiver_test():
-    beacon = Beacon.InternalRxBeacon(constants.MODE_C16, micro)
-    beacon.start_listening()
+    beac = beacon.InternalRxBeacon(constants.MODE_C16, micro)
+    beac.start_listening()
 
 
 def terminal_test():
@@ -119,7 +119,7 @@ def populate_menus():
     menu_main.add_entry("IR Transmitter", menu_tx)
     menu_main.add_entry("IR Receiver", menu_rx)
 
-    menu_debug.add_entry("Internal Rx Test", internal_receiver_test())
+    menu_debug.add_entry("Internal Rx Test", internal_receiver_test)
     menu_debug.add_entry("rxDisplay Test", rx_display_test)
     menu_debug.add_entry("Micro Test", micro_test)
     menu_debug.add_entry("Terminal Test", terminal_test)
