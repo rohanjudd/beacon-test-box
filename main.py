@@ -45,6 +45,8 @@ def start_up():
         hat.write_line("Connection Sucessful")
     else:
         hat.write_line("No response from Interface Board")
+    time.sleep(1)
+    hat.write_line("Opening Main Menu")
     delay()
 
 def delay():
