@@ -40,6 +40,7 @@ MODE_C10 = 0
 MODE_C16 = 1
 
 """Serial Commands"""
+PING = 'p'
 SET_MODE_C10 = 'm'
 SET_MODE_C16 = 'M'
 TRANSMIT = 't'
@@ -50,3 +51,6 @@ GET_VERSION = 'i'
 GET_VOLTAGE = 'v'
 GET_CURRENT = 'a'
 GET_BUTTON_PRESS = 'b'
+
+"""Interface Delays"""
+STARTUP_DELAY = 0.3

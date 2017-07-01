@@ -29,6 +29,10 @@ class Micro:
     def is_connected(self):
         return self.ser.isOpen()
 
+    def ping(self):
+        self.send(constants.PING)
+        return self.read() == "p"
+
     def send(self, message):
         if self.is_connected():
             print("sending: {}".format(message))

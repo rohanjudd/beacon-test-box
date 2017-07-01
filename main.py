@@ -18,7 +18,6 @@ def close():
     micro.disconnect()
     quit()
 
-
 menu_shutdown = Menu("Shutdown", close)
 menu_main = Menu("Main Test Box Menu", menu_shutdown)
 menu_rx = Menu("IR Receiver", menu_main)
@@ -29,6 +28,27 @@ def start_sleep():
     print("Going to Sleep")
     hat.sleep()
 
+def start_up():
+    hat.start_terminal()
+    hat.write_line("Beacon Test Box v0.1")
+    hat.write_line("Starting")
+    delay()
+    hat.write_line("Connecting to Interface Board")
+    delay()
+    micro.connect()
+    if micro.is_connected():
+        hat.write_line("Serial Port Open")
+    else:
+        hat.write_line("ERROR: Could not open serial port")
+    delay()
+    if micro.ping():
+        hat.write_line("Connection Sucessful")
+    else:
+        hat.write_line("No response from Interface Board")
+    delay()
+
+def delay():
+    time.sleep(constants.STARTUP_DELAY)
 
 def terminal_test():
     hat.start_terminal()
@@ -43,7 +63,7 @@ def to_do():
 
 
 def tx_test():
-    micro.ir_transmit(1,1,True)
+    micro.ir_transmit(1 ,1 ,True)
     time.sleep(1)
 
 
@@ -51,14 +71,6 @@ def micro_test():
     micro.flush()
     print("Connected: {}".format(micro.is_connected()))
     time.sleep(0.5)
-    #print("Sending t")
-    #micro.send('t')
-    #time.sleep(0.2)
-    #print("Received: {}".format(micro.read()))
-    #micro.send('v')
-    #time.sleep(0.2)
-    #print("Received: {}".format(micro.read()))
-    #time.sleep(0.5)
     micro.send('b')
     micro.send('t')
     time.sleep(0.2)
@@ -190,10 +202,9 @@ def process_input():
 
 def main():
     hat.set_led_states(status=True)
-    micro.connect()
     populate_menus()
-    #hat.splash()
-    #time.sleep(1)
+    hat.splash()
+    start_up()
     go_to_menu(menu_main)
     while True:
         process_button_input()
