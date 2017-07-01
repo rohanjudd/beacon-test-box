@@ -50,7 +50,6 @@ def tx_test():
 def micro_test():
     micro.flush()
     print("Connected: {}".format(micro.is_connected()))
-    print(micro.ser)
     time.sleep(0.5)
     #print("Sending t")
     #micro.send('t')
@@ -60,10 +59,9 @@ def micro_test():
     #time.sleep(0.2)
     #print("Received: {}".format(micro.read()))
     #time.sleep(0.5)
-    micro.send(b'b')
-    time.sleep(0.5)
-    micro.ser.write(b'b')
-    time.sleep(0.5)
+    micro.send('b')
+    micro.send('t')
+    time.sleep(0.2)
     print("Received: {}".format(micro.read()))
     time.sleep(0.5)
 

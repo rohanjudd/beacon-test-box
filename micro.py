@@ -32,15 +32,12 @@ class Micro:
     def send(self, message):
         if self.is_connected():
             print("sending: {}".format(message))
-            self.ser.write(message)
-            #print(message.encode())
-            #self.ser.write(message.encode())
+            self.ser.write(message.encode())
         else:
             print("Serial not Connected")
 
     def read(self):
         if self.is_connected():
-            #return self.ser.readline()
             return self.ser.readline().decode().strip()
         else:
             print("Serial not Connected")
