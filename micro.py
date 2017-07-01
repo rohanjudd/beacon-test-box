@@ -31,7 +31,11 @@ class Micro:
 
     def ping(self):
         self.send(constants.PING)
-        return self.read() == "p"
+        if self.read == 'p':
+            return True
+        else:
+            time.sleep(0.5)
+            return self.read == 'p'
 
     def send(self, message):
         if self.is_connected():

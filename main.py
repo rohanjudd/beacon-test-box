@@ -59,13 +59,17 @@ def internal_receiver_test():
     micro.send(constants.RECEIVE_REPEAT)
     while hat.get_button_state() == constants.NONE:
         inp = micro.read()
+        if inp == 'x':
+            break;
+        print(inp)
         try:
             i = int(inp)
-            if 0 > i > 32:
+            if 0 > i > 31:
                 raise ValueError
         except ValueError:
             print('Not Valid Code')
-        hat.display_rx(inp, True, inp)
+            i = 0
+        hat.display_rx(i, True, i)
 
 
 def terminal_test():
