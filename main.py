@@ -55,8 +55,17 @@ def delay():
     time.sleep(constants.STARTUP_DELAY)
 
 def internal_receiver_test():
-    beac = beacon.InternalRxBeacon(constants.MODE_C16, micro)
-    beac.start_listening()
+    beac = beacon.InternalRxBeacon(constants.MODE_C16)
+    micro.send(constants.RECEIVE_REPEAT)
+    while hat.get_button_state() == constants.NONE:
+        inp = micro.read()
+        try:
+            i = int(inp)
+            if 0 > i > 32:
+                raise ValueError
+        except ValueError:
+            print('Not Valid Code')
+        hat.display_rx(inp, True, inp)
 
 
 def terminal_test():
