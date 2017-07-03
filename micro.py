@@ -33,9 +33,7 @@ class Micro:
         for i in range(0, 3):
             self.flush()
             self.send(constants.PING)
-            inp = self.read()
-            print(inp)
-            if inp == 'p':
+            if self.read() == 'p':
                 return True
         return False
 
@@ -65,9 +63,9 @@ class Micro:
 
     def set_ir_code(self, code):
         if code:
-            self.send("C16_MODE")
+            self.send('C16_MODE')
         else:
-            self.send("C10_MODE")
+            self.send('C10_MODE')
 
     def ir_transmit(self):
         self.send(constants.TRANSMIT)
@@ -75,7 +73,7 @@ class Micro:
     def ir_receive_once(self):
         self.send(constants.RECIEVE)
         time.sleep(0.2)
-        return self.read() == "True"
+        return self.read() == '1'
 
     def ir_receive_repeat(self, code, mode):
         pass
@@ -83,6 +81,6 @@ class Micro:
     def button_check(self):
         self.send(constants.GET_BUTTON_PRESS)
         time.sleep(0.2)
-        return self.read() == "True"
+        return self.read() == '1'
 
 
