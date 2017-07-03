@@ -33,7 +33,9 @@ class Micro:
         for i in range(0, 3):
             self.flush()
             self.send(constants.PING)
-            if self.read == 'p':
+            inp = self.read()
+            print(inp)
+            if inp == 'p':
                 return True
         return False
 

@@ -60,7 +60,7 @@ def internal_receiver_test():
     while hat.get_button_state() == constants.NONE:
         inp = micro.read()
         if inp == 'x':
-            break;
+            break
         print(inp)
         try:
             i = int(inp)
@@ -112,13 +112,13 @@ def hat_test():
 
 
 def show_menu():
-    os.system("clear")
+    #os.system("clear")
     hat.display_menu(current_menu)
-    print(current_menu.title)
-    x = 1
-    for l in current_menu.get_lines():
-        print("{}: {}".format(x, l))
-        x += 1
+    #print(current_menu.title)
+    #x = 1
+    #for l in current_menu.get_lines():
+    #    print("{}: {}".format(x, l))
+    #    x += 1
 
 
 def go_to_menu(menu):
