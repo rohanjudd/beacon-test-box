@@ -30,12 +30,13 @@ class Micro:
         return self.ser.isOpen()
 
     def ping(self):
-        self.send(constants.PING)
-        if self.read == 'p':
-            return True
-        else:
-            time.sleep(0.5)
-            return self.read == 'p'
+        for i in range(0, 3):
+            self.flush()
+            self.send(constants.PING)
+            if self.read == 'p':
+                return True
+        return False
+
 
     def send(self, message):
         if self.is_connected():
