@@ -169,7 +169,7 @@ class Hat:
         if lap:
             self.draw_text("LAP", font_32, 40, 16)
         self.draw_text("0123456789ABCDEF", font_16, 2, 46)
-        self.draw_text("{0:b}".format(codes_done), font_16, 2, 54)
+        self.draw_text("{0:b}".format(beac.codes_done), font_16, 2, 54)
         self.refresh()
 
     def display_rx2(self, beac):
@@ -182,7 +182,7 @@ class Hat:
         #if lap:
         #    self.draw_text("LAP", font_32, 40, 16)
         self.draw_text("0123456789ABCDEF", font_16, 2, 46)
-        self.draw_text("{0:b}".format(codes_done), font_16, 2, 54)
+        self.draw_text("{0:b}".format(beac.codes_done), font_16, 2, 54)
         self.refresh()
 
     def display_menu(self, menu):

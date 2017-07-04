@@ -56,7 +56,7 @@ def internal_receiver_test():
     internal_rx.start_receiving(micro)
     while hat.get_button_state() == constants.NONE and not internal_rx.stop:
         code = internal_rx.read_code(micro)
-        hat.display_r2(internal_rx)
+        hat.display_rx2(internal_rx)
 
 
 def terminal_test():
@@ -215,7 +215,7 @@ def process_input():
 def main():
     hat.set_led_states(status=True)
     populate_menus()
-    hat.splash()
+    #hat.splash()
     start_up()
     go_to_menu(menu_main)
     while True:

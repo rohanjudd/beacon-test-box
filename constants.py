@@ -53,4 +53,4 @@ GET_CURRENT = 'a'
 GET_BUTTON_PRESS = 'b'
 
 """Interface Delays"""
-STARTUP_DELAY = 0.5
+STARTUP_DELAY = 0.2
