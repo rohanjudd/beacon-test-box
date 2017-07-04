@@ -2,13 +2,13 @@ import constants
 import time
 
 class Beacon:
-    def __init__(self, mode):
+    def __init__(self, mode, micro):
+        self.micro = micro
         self.mode = mode
         self.code = 0
         self.code_alpha = '0'
         self.split = False
         self.codes_done = [0] * 32
-
 
     def new_code(self, code):
         if 0 <= code <= 31:
@@ -32,8 +32,8 @@ class Beacon:
 
 
 class ExternalRxBeacon(Beacon):
-    def __init__(self, mode):
-        Beacon.__init__(self, mode)
+    def __init__(self, mode, micro):
+        Beacon.__init__(self, mode, micro)
         self.lap = False
         self.led = False
         self.codes_passed = [0] * 32
@@ -42,16 +42,19 @@ class ExternalRxBeacon(Beacon):
 
 
 class InternalRxBeacon(Beacon):
-    def __init__(self, mode):
-        Beacon.__init__(self, mode)
+    def __init__(self, mode, micro):
+        Beacon.__init__(self, mode, micro)
         self.stop = False
 
     def start_receiving(self, micro):
         self.stop = False
-        micro.send(constants.RECEIVE_REPEAT)
+        self.micro.send(constants.RECEIVE_REPEAT)
+
+    def stop_receiving(self):
+        self.micro.send(constants.STOP)
 
     def read_code(self, micro):
-        input_string = micro.read()
+        input_string = self.micro.read()
         if input_string == 'x':
             self.stop = True
         print(input_string)
@@ -68,7 +71,7 @@ class InternalRxBeacon(Beacon):
 
 
 class InternalTxBeacon(Beacon):
-    def __init__(self, mode):
-        Beacon.__init__(self, mode)
+    def __init__(self, mode, micro):
+        Beacon.__init__(self, mode, micro)
 
 

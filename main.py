@@ -52,11 +52,14 @@ def delay():
     time.sleep(constants.STARTUP_DELAY)
 
 def internal_receiver_test():
-    internal_rx = beacon.InternalRxBeacon(constants.MODE_C16)
-    internal_rx.start_receiving(micro)
-    while hat.get_button_state() == constants.NONE and not internal_rx.stop:
-        code = internal_rx.read_code(micro)
-        hat.display_rx2(internal_rx)
+    internal_rx = beacon.InternalRxBeacon(constants.MODE_C16, micro)
+    internal_rx.start_receiving()
+    while  not internal_rx.stop:
+        if hat.get_button_state() != constants.NONE:
+            internal_rx.stop_receiving()
+            break
+        code = internal_rx.read_code()
+        hat.display_rx(internal_rx)
 
 
 def terminal_test():
