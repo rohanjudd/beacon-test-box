@@ -182,7 +182,7 @@ class Hat:
         #if lap:
         #    self.draw_text("LAP", font_32, 40, 16)
         self.draw_text("0123456789ABCDEF", font_16, 2, 46)
-        self.draw_text(beac.get_codes_done_string, font_16, 2, 54)
+        self.draw_text(beac.get_codes_done_string(), font_16, 2, 54)
         self.refresh()
 
     def display_menu(self, menu):

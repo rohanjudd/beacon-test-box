@@ -27,7 +27,7 @@ class Beacon:
     def get_codes_done_string(self):
         output = ''
         for e in self.codes_done:
-            output += e
+            output += str(e)
         return output
 
 
