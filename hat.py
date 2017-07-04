@@ -1,5 +1,6 @@
 import time
 import constants
+import beacon
 import Adafruit_GPIO as GPIO
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_SSD1306
@@ -167,6 +168,19 @@ class Hat:
             self.draw_text("SPLIT", font_32, 40, -4)
         if lap:
             self.draw_text("LAP", font_32, 40, 16)
+        self.draw_text("0123456789ABCDEF", font_16, 2, 46)
+        self.draw_text("{0:b}".format(codes_done), font_16, 2, 54)
+        self.refresh()
+
+    def display_rx2(self, beac):
+        self.clear()
+        letter = beac.code_alpha
+        split = beac.split
+        self.draw_text(letter, font_64, 0, -4)
+        if split:
+            self.draw_text("SPLIT", font_32, 40, -4)
+        #if lap:
+        #    self.draw_text("LAP", font_32, 40, 16)
         self.draw_text("0123456789ABCDEF", font_16, 2, 46)
         self.draw_text("{0:b}".format(codes_done), font_16, 2, 54)
         self.refresh()

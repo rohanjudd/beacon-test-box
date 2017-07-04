@@ -1,19 +1,28 @@
 import constants
 import time
 
-
 class Beacon:
     def __init__(self, mode):
         self.mode = mode
         self.code = 0
+        self.code_alpha = '0'
         self.split = False
         self.codes_done = [0] * 32
 
 
     def new_code(self, code):
-        if code > 0 and code < 32:
+        if 0 <= code <= 31:
             self.code = code
+            self.set_alpha_split()
             self.codes_done[code] = 1
+
+    def set_alpha_split(self):
+        self.split = False
+        val = self.code
+        if val > 15:
+            self.split = True
+            val = self.code - 16
+        self.code_alpha = "%0.1X" % val
 
 
 class ExternalRxBeacon(Beacon):
@@ -47,7 +56,7 @@ class InternalRxBeacon(Beacon):
         except ValueError:
             print('Not Valid Code')
             i = 0
-        return i
+        self.new_code(i)
 
 
 

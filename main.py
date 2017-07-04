@@ -34,7 +34,7 @@ def start_up():
     hat.start_terminal()
     hat.write_line("Beacon Test Box v0.1")
     delay()
-    hat.write_line("Connecting to Interface Board")
+    hat.write_line("Connecting to Interface")
     delay()
     micro.connect()
     if micro.is_connected():
@@ -47,8 +47,6 @@ def start_up():
     else:
         hat.write_line("No Response")
     time.sleep(1)
-    hat.write_line("Opening Main Menu")
-    delay()
 
 def delay():
     time.sleep(constants.STARTUP_DELAY)
@@ -58,7 +56,7 @@ def internal_receiver_test():
     internal_rx.start_receiving(micro)
     while hat.get_button_state() == constants.NONE and not internal_rx.stop:
         code = internal_rx.read_code(micro)
-        hat.display_rx(code, True, code)
+        hat.display_r2(internal_rx)
 
 
 def terminal_test():
