@@ -46,14 +46,15 @@ class InternalRxBeacon(Beacon):
         Beacon.__init__(self, mode, micro)
         self.stop = False
 
-    def start_receiving(self, micro):
+    def start_receiving(self):
+        self.micro.flush()
         self.stop = False
         self.micro.send(constants.RECEIVE_REPEAT)
 
     def stop_receiving(self):
         self.micro.send(constants.STOP)
 
-    def read_code(self, micro):
+    def read_code(self):
         input_string = self.micro.read()
         if input_string == 'x':
             self.stop = True
