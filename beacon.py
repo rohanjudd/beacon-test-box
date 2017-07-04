@@ -29,14 +29,30 @@ class ExternalRxBeacon(Beacon):
 class InternalRxBeacon(Beacon):
     def __init__(self, mode):
         Beacon.__init__(self, mode)
+        self.stop = False
+
+    def start_receiving(self, micro):
+        self.stop = False
+        micro.send(constants.RECEIVE_REPEAT)
+
+    def read_code(self, micro):
+        input_string = micro.read()
+        if input_string == 'x':
+            self.stop = True
+        print(input_string)
+        try:
+            i = int(input_string)
+            if 0 > i > 31:
+                raise ValueError
+        except ValueError:
+            print('Not Valid Code')
+            i = 0
+        return i
+
+
 
 
 class InternalTxBeacon(Beacon):
-    def __init__(self, mode):
-        Beacon.__init__(self, mode)
-
-
-class ExternalTxBeacon(Beacon):
     def __init__(self, mode):
         Beacon.__init__(self, mode)
 

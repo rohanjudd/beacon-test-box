@@ -33,7 +33,6 @@ def start_sleep():
 def start_up():
     hat.start_terminal()
     hat.write_line("Beacon Test Box v0.1")
-    hat.write_line("Starting")
     delay()
     hat.write_line("Connecting to Interface Board")
     delay()
@@ -41,12 +40,12 @@ def start_up():
     if micro.is_connected():
         hat.write_line("Serial Port Open")
     else:
-        hat.write_line("ERROR: Could not open serial port")
+        hat.write_line("Could not open serial port!")
     delay()
     if micro.ping():
-        hat.write_line("Connection Sucessful")
+        hat.write_line("Connected")
     else:
-        hat.write_line("No response from Interface Board")
+        hat.write_line("No Response")
     time.sleep(1)
     hat.write_line("Opening Main Menu")
     delay()
@@ -55,21 +54,11 @@ def delay():
     time.sleep(constants.STARTUP_DELAY)
 
 def internal_receiver_test():
-    beac = beacon.InternalRxBeacon(constants.MODE_C16)
-    micro.send(constants.RECEIVE_REPEAT)
-    while hat.get_button_state() == constants.NONE:
-        inp = micro.read()
-        if inp == 'x':
-            break
-        print(inp)
-        try:
-            i = int(inp)
-            if 0 > i > 31:
-                raise ValueError
-        except ValueError:
-            print('Not Valid Code')
-            i = 0
-        hat.display_rx(i, True, i)
+    internal_rx = beacon.InternalRxBeacon(constants.MODE_C16)
+    internal_rx.start_receiving(micro)
+    while hat.get_button_state() == constants.NONE and not internal_rx.stop:
+        code = internal_rx.read_code(micro)
+        hat.display_rx(code, True, code)
 
 
 def terminal_test():
@@ -85,7 +74,7 @@ def to_do():
 
 
 def tx_test():
-    micro.ir_transmit(1 ,1 ,True)
+    micro.ir_transmit()
     time.sleep(1)
 
 
