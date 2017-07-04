@@ -24,6 +24,12 @@ class Beacon:
             val = self.code - 16
         self.code_alpha = "%0.1X" % val
 
+    def get_codes_done_string(self):
+        output = ''
+        for e in self.codes_done:
+            output += e
+        return output
+
 
 class ExternalRxBeacon(Beacon):
     def __init__(self, mode):
