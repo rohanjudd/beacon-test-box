@@ -8,6 +8,7 @@ class Beacon:
         self.code = 0
         self.code_alpha = '0'
         self.split = False
+        self.lap = False
         self.codes_done = [0] * 32
 
     def new_code(self, code):

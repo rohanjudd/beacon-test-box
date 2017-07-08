@@ -12,6 +12,8 @@ font_16 = ImageFont.truetype('./Fonts/madness.ttf', 16)
 font_32 = ImageFont.truetype('./Fonts/madness.ttf', 32)
 font_64 = ImageFont.truetype('./Fonts/madness.ttf', 64)
 
+bmp = Image.open(("Images/bmp.png").convert('1'))
+
 
 def get_letter_and_split(code):
     split = False
@@ -171,11 +173,11 @@ class Hat:
         self.draw_text(letter, font_64, 0, -4)
         if split:
             self.draw_text("SPLIT", font_32, 40, -4)
-        #if lap:
-        #    self.draw_text("LAP", font_32, 40, 16)
+        if beac.lap:
+            self.draw_text("LAP", font_32, 40, 16)
         self.draw_text("0123456789ABCDEF", font_16, 2, 46)
         self.draw_codes_done(beac)
-        #self.draw_text(beac.get_codes_done_string(), font_16, 2, 54)
+        self.draw.bitmap((0, 0), bmp)
         self.refresh()
 
     def draw_codes_done(self, beac):
@@ -186,6 +188,8 @@ class Hat:
             if e == 1:
                 self.draw.rectangle(x,y,x+4,y+4, outline=1, fill=255)
             x += 4
+
+
 
     def display_menu(self, menu):
         self.clear()
