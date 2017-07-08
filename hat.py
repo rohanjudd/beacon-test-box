@@ -12,7 +12,7 @@ font_16 = ImageFont.truetype('./Fonts/madness.ttf', 16)
 font_32 = ImageFont.truetype('./Fonts/madness.ttf', 32)
 font_64 = ImageFont.truetype('./Fonts/madness.ttf', 64)
 
-bmp = Image.open(("Images/bmp.png").convert('1'))
+bmp = Image.open("./Images/x.png").convert('1')
 
 
 def get_letter_and_split(code):
@@ -186,7 +186,7 @@ class Hat:
         x = 0
         for e in codes_done:
             if e == 1:
-                self.draw.rectangle(x,y,x+4,y+4, outline=1, fill=255)
+                self.draw.rectangle((x,y,x+4,y+4), outline=1, fill=255)
             x += 4
 
 
