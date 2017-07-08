@@ -97,8 +97,8 @@ def rx_display_test():
     time.sleep(1)
 
 def circle_test():
-    for x in range(0, 360, 10):
-        hat.display_circle(0, x)
+    for x in range(-90, 230, 20):
+        hat.display_circle(-90, x)
 
 
 def hat_test():

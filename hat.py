@@ -159,8 +159,10 @@ class Hat:
         time.sleep(1)
 
     def display_circle(self, start, end):
-        self.draw.arc((10,10), start, end, outline = 1)
-        time.sleep(0.5)
+        self.clear()
+        self.draw.arc((10,10, 50, 50), start, end, 1,)
+        self.refresh()
+        time.sleep(0.1)
 
     def display_rx(self, beac):
         self.clear()
