@@ -31,7 +31,7 @@ class Beacon:
                 output += 'X'
             else:
                 output += '_'
-            output += str(e)
+            #output += str(e)
         return output
 
 
