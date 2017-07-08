@@ -27,6 +27,10 @@ class Beacon:
     def get_codes_done_string(self):
         output = ''
         for e in self.codes_done:
+            if e == 1:
+                output += 'X'
+            else:
+                output += '_'
             output += str(e)
         return output
 
