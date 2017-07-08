@@ -96,6 +96,10 @@ def rx_display_test():
         time.sleep(0.02)
     time.sleep(1)
 
+def circle_test():
+    for x in range(0, 360, 10):
+        hat.display_circle(0, x)
+
 
 def hat_test():
     hat.hat_test()
@@ -122,6 +126,7 @@ def populate_menus():
     menu_main.add_entry("IR Transmitter", menu_tx)
     menu_main.add_entry("IR Receiver", menu_rx)
 
+    menu_debug.add_entry("Circle Test", circle_test)
     menu_debug.add_entry("Internal Rx Test", internal_receiver_test)
     menu_debug.add_entry("rxDisplay Test", rx_display_test)
     menu_debug.add_entry("Micro Test", micro_test)
