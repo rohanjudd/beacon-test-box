@@ -174,8 +174,18 @@ class Hat:
         #if lap:
         #    self.draw_text("LAP", font_32, 40, 16)
         self.draw_text("0123456789ABCDEF", font_16, 2, 46)
-        self.draw_text(beac.get_codes_done_string(), font_16, 2, 54)
+        self.draw_codes_done(beac)
+        #self.draw_text(beac.get_codes_done_string(), font_16, 2, 54)
         self.refresh()
+
+    def draw_codes_done(self, beac):
+        codes_done = beac.codes_done
+        y = 54
+        x = 0
+        for e in codes_done:
+            if e == 1:
+                self.draw.rectangle(x,y,x+4,y+4, outline=1, fill=255)
+            x += 4
 
     def display_menu(self, menu):
         self.clear()
