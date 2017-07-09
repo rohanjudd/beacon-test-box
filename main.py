@@ -61,6 +61,7 @@ def internal_receiver_test():
         if hat.get_button_state() != constants.NONE:
             internal_rx.stop_receiving()
             break
+        internal_rx.read_code()
         hat.display_rx(internal_rx)
 
 
@@ -236,6 +237,7 @@ def main():
     #hat.splash()
     start_up()
     go_to_menu(menu_main)
+    internal_receiver_test()
     while True:
         process_button_input()
         show_menu()

@@ -14,7 +14,7 @@ font_64 = ImageFont.truetype('./Fonts/madness.ttf', 64)
 
 bmp = Image.open("./Images/x.png").convert('1')
 bmp2 = Image.open("./Images/grid.png").convert('1')
-bmp3 = Image.open("./Images/gridinv.png").convert('1')
+bmp3 = Image.open("./Images/gridinv.ppm").convert('1')
 
 
 def get_letter_and_split(code):
@@ -173,12 +173,13 @@ class Hat:
         if num == 0:
             self.draw.bitmap((0, 0), bmp2)
         else:
-            self.draw.bitmap((0, 0), bmp3)
+            self.image.paste(bmp3, (0, 0))
         self.refresh()
         time.sleep(0.5)
 
     def display_rx(self, beac):
         self.clear()
+        self.image.paste(bmp3, (0, 0))
         letter = beac.code_alpha
         split = beac.split
         self.draw_text(letter, font_64, 0, -4)
@@ -186,14 +187,14 @@ class Hat:
             self.draw_text("SPLIT", font_32, 40, -4)
         if beac.lap:
             self.draw_text("LAP", font_32, 40, 16)
-        self.draw_text("0123456789ABCDEF", font_16, 2, 46)
+        #self.draw_text("0123456789ABCDEF", font_16, 2, 46)
         self.draw_codes_done(beac)
-        self.draw.bitmap((0, 0), bmp)
+        #self.draw.bitmap((0, 0), bmp)
         self.refresh()
 
     def draw_codes_done(self, beac):
         codes_done = beac.codes_done
-        y = 54
+        y = 60
         x = 0
         for e in codes_done:
             if e == 1:
