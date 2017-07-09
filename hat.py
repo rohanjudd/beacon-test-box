@@ -194,12 +194,15 @@ class Hat:
 
     def draw_codes_done(self, beac):
         codes_done = beac.codes_done
-        y = 60
+        y = 56
         x = 0
         for e in codes_done:
             if e == 1:
-                self.draw.rectangle((x, y, x+4, y+4), outline=1, fill=255)
-            x += 4
+                if x == 128:
+                    y += 4
+                    x = 0
+                self.draw.rectangle((x, y, x+8, y+4), outline=1, fill=255)
+            x += 8
 
     def display_menu(self, menu):
         self.clear()
