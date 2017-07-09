@@ -13,6 +13,8 @@ font_32 = ImageFont.truetype('./Fonts/madness.ttf', 32)
 font_64 = ImageFont.truetype('./Fonts/madness.ttf', 64)
 
 bmp = Image.open("./Images/x.png").convert('1')
+bmp2 = Image.open("./Images/grid.png").convert('1')
+bmp3 = Image.open("./Images/gridinv.png").convert('1')
 
 
 def get_letter_and_split(code):
@@ -162,9 +164,18 @@ class Hat:
 
     def display_circle(self, start, end):
         self.clear()
-        self.draw.arc((10,10, 50, 50), start, end, 1,)
+        self.draw.arc((10, 10, 50, 50), start, end, 1,)
         self.refresh()
         time.sleep(0.1)
+
+    def display_bitmap(self, num):
+        self.clear()
+        if num == 0:
+            self.draw.bitmap((0, 0), bmp2)
+        else:
+            self.draw.bitmap((0, 0), bmp3)
+        self.refresh()
+        time.sleep(0.5)
 
     def display_rx(self, beac):
         self.clear()
@@ -186,10 +197,8 @@ class Hat:
         x = 0
         for e in codes_done:
             if e == 1:
-                self.draw.rectangle((x,y,x+4,y+4), outline=1, fill=255)
+                self.draw.rectangle((x, y, x+4, y+4), outline=1, fill=255)
             x += 4
-
-
 
     def display_menu(self, menu):
         self.clear()

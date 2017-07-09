@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import os
 import time
 import string
 import constants
@@ -26,9 +25,11 @@ menu_tx = Menu("IR Transmitter", menu_main)
 menu_debug = Menu("Debug", menu_main)
 current_menu = menu_main
 
+
 def start_sleep():
     print("Going to Sleep")
     hat.sleep()
+
 
 def start_up():
     hat.start_terminal()
@@ -48,17 +49,18 @@ def start_up():
         hat.write_line("No Response")
     time.sleep(1)
 
+
 def delay():
     time.sleep(constants.STARTUP_DELAY)
+
 
 def internal_receiver_test():
     internal_rx = beacon.InternalRxBeacon(constants.MODE_C16, micro)
     internal_rx.start_receiving()
-    while  not internal_rx.stop:
+    while not internal_rx.stop:
         if hat.get_button_state() != constants.NONE:
             internal_rx.stop_receiving()
             break
-        code = internal_rx.read_code()
         hat.display_rx(internal_rx)
 
 
@@ -92,13 +94,20 @@ def micro_test():
 
 def rx_display_test():
     for x in range(0, 32):
-        hat.display_rx(x, True, x)
+        #hat.display_rx(x, True, x)
         time.sleep(0.02)
     time.sleep(1)
+
 
 def circle_test():
     for x in range(-90, 230, 20):
         hat.display_circle(-90, x)
+
+
+def bitmap_test():
+    hat.display_bitmap(0)
+    hat.display_bitmap(1)
+    time.sleep(1)
 
 
 def hat_test():
@@ -126,6 +135,7 @@ def populate_menus():
     menu_main.add_entry("IR Transmitter", menu_tx)
     menu_main.add_entry("IR Receiver", menu_rx)
 
+    menu_debug.add_entry("Bitmap Test", bitmap_test)
     menu_debug.add_entry("Circle Test", circle_test)
     menu_debug.add_entry("Internal Rx Test", internal_receiver_test)
     menu_debug.add_entry("rxDisplay Test", rx_display_test)
