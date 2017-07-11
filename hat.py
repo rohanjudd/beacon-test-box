@@ -180,16 +180,12 @@ class Hat:
     def display_rx(self, beac):
         self.clear()
         self.image.paste(bmp3, (0, 0))
-        letter = beac.code_alpha
-        split = beac.split
-        self.draw_text(letter, font_64, 0, -4)
-        if split:
+        self.draw_text(beac.code_alpha, font_64, 0, -4)
+        if beac.split:
             self.draw_text("SPLIT", font_32, 40, -4)
         if beac.lap:
             self.draw_text("LAP", font_32, 40, 16)
-        #self.draw_text("0123456789ABCDEF", font_16, 2, 46)
         self.draw_codes_done(beac)
-        #self.draw.bitmap((0, 0), bmp)
         self.refresh()
 
     def draw_codes_done(self, beac):

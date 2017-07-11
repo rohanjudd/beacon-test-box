@@ -116,8 +116,8 @@ def hat_test():
 
 
 def show_menu():
-    #os.system("clear")
     hat.display_menu(current_menu)
+    # os.system("clear")
     #print(current_menu.title)
     #x = 1
     #for l in current_menu.get_lines():
