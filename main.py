@@ -138,7 +138,7 @@ def populate_menus():
 
     menu_debug.add_entry("Bitmap Test", bitmap_test)
     menu_debug.add_entry("Circle Test", circle_test)
-    menu_debug.add_entry("Internal Rx Test", internal_receiver_test)
+    menu_debug.add_entry("Int. Rx Test", internal_receiver_test)
     menu_debug.add_entry("rxDisplay Test", rx_display_test)
     menu_debug.add_entry("Micro Test", micro_test)
     menu_debug.add_entry("Terminal Test", terminal_test)

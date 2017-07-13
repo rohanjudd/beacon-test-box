@@ -42,11 +42,8 @@ MODE_TEXT = ['C10', 'C16']
 
 TYPE_RX = 0
 TYPE_TX = 1
-MODE_TEXT = ['RX', 'TX']
-
-TYPE_INT = 0
-TYPE_TX = 1
 TYPE_TEXT = ['RX', 'TX']
+
 
 """Serial Commands"""
 PING = 'p'

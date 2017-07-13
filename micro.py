@@ -33,8 +33,10 @@ class Micro:
         for i in range(0, 3):
             self.flush()
             self.send(config.PING)
-            if self.read() == 'p':
+            inp = self.read()
+            if inp == 'p':
                 return True
+            print("Failed got: {}".format(inp))
         return False
 
 

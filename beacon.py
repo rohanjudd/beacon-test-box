@@ -39,10 +39,10 @@ class Beacon:
         return output
 
     def get_mode_text(self):
-        return config.MODE_TEXT(self.mode)
+        return config.MODE_TEXT[self.mode]
 
     def get_type_text(self):
-        return config.TYPE_TEXT(self.type)
+        return config.TYPE_TEXT[self.type]
 
     def get_external_text(self):
         if self.external:

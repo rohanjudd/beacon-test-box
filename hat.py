@@ -9,6 +9,7 @@ from PIL import Image, ImageDraw, ImageFont
 font_10 = ImageFont.truetype('./Fonts/mono.ttf', 10)
 font_13 = ImageFont.truetype('./Fonts/pixel.ttf', 13)
 font_16 = ImageFont.truetype('./Fonts/madness.ttf', 16)
+font_24 = ImageFont.truetype('./Fonts/madness.ttf', 24)
 font_32 = ImageFont.truetype('./Fonts/madness.ttf', 32)
 font_64 = ImageFont.truetype('./Fonts/madness.ttf', 64)
 
@@ -180,14 +181,15 @@ class Hat:
     def display_rx(self, beac):
         self.clear()
         self.image.paste(bmp3, (0, 0))
-        self.draw_text(beac.get_external_text(), font_32, 0, -4)
-        self.draw_text(beac.get_type_text(), font_32, 0, 16)
-        self.draw_text(beac.get_mode_text(), font_32, 0, 32)
-        self.draw_text(beac.code_alpha, font_64, 64, -4)
+        self.draw_text(beac.get_external_text(), font_16, 10, 4)
+        self.draw_text(beac.get_type_text(), font_16, 12, 21)
+        self.draw_text(beac.get_mode_text(), font_16, 9, 36)
+        
+        self.draw_text(beac.code_alpha, font_64, 49, -6)
         if beac.split:
-            self.draw_text("SPLIT", font_32, 80, -4)
+            self.draw_text("SPLIT", font_16, 88, 4)
         if beac.lap:
-            self.draw_text("LAP", font_32, 80, 16)
+            self.draw_text("LAP", font_16, 93, 21)
         self.draw_codes_done(beac)
         self.refresh()
 
@@ -200,7 +202,7 @@ class Hat:
                 if x == 128:
                     y += 4
                     x = 0
-                self.draw.rectangle((x, y, x+8, y+4), outline=1, fill=255)
+                self.draw.rectangle((x+1, y, x+7, y+4), outline=0, fill=255)
             x += 8
 
     def display_menu(self, menu):
