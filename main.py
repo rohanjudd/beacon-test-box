@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import time
 import string
-import constants
+import config
 from menu import Menu
 from hat import Hat
 from switch import Switch
@@ -51,14 +51,14 @@ def start_up():
 
 
 def delay():
-    time.sleep(constants.STARTUP_DELAY)
+    time.sleep(config.STARTUP_DELAY)
 
 
 def internal_receiver_test():
-    internal_rx = beacon.InternalRxBeacon(constants.MODE_C16, micro)
+    internal_rx = beacon.InternalRxBeacon(config.MODE_C16, micro)
     internal_rx.start_receiving()
     while not internal_rx.stop:
-        if hat.get_button_state() != constants.NONE:
+        if hat.get_button_state() != config.NONE:
             internal_rx.stop_receiving()
             break
         internal_rx.read_code()
@@ -158,29 +158,29 @@ def process_button_input():
     sleep_timer = 0
     shutdown_timer = 0
     state = hat.get_button_state()
-    while state == constants.NONE and sleep_timer < 500:
+    while state == config.NONE and sleep_timer < 500:
         state = hat.get_button_state()
         sleep_timer += 1
         time.sleep(0.05)
     if sleep_timer >= 500:
         start_sleep()
-        while state == constants.NONE and shutdown_timer < 500:
+        while state == config.NONE and shutdown_timer < 500:
             state = hat.get_button_state()
             shutdown_timer += 1
             time.sleep(0.05)
     if shutdown_timer >= 500:
         close()
-    if state == constants.UP:
+    if state == config.UP:
         current_menu.up()
-    elif state == constants.DOWN:
+    elif state == config.DOWN:
         current_menu.down()
-    elif state == constants.BACK:
+    elif state == config.BACK:
         obj = current_menu.get_parent()
         if type(obj) is Menu:
             go_to_menu(obj)
         else:
             obj()
-    elif state == constants.SELECT:
+    elif state == config.SELECT:
         obj = current_menu.select()
         if type(obj) is Menu:
             go_to_menu(obj)
@@ -236,8 +236,8 @@ def main():
     populate_menus()
     #hat.splash()
     start_up()
-    go_to_menu(menu_main)
     internal_receiver_test()
+    go_to_menu(menu_main)
     while True:
         process_button_input()
         show_menu()

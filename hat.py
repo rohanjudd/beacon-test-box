@@ -1,5 +1,5 @@
 import time
-import constants
+import config
 import beacon
 import Adafruit_GPIO as GPIO
 import Adafruit_GPIO.SPI as SPI
@@ -27,64 +27,64 @@ def get_letter_and_split(code):
 
 
 def width_check(font, text):
-    return font.getsize(text)[0] <= constants.WIDTH
+    return font.getsize(text)[0] <= config.WIDTH
 
 
 def get_line_pos(i):
-    return i * constants.MENU_LINE_SPACING + constants.MENU_Y_INDENT
+    return i * config.MENU_LINE_SPACING + config.MENU_Y_INDENT
 
 
 class Hat:
     def __init__(self):
 
         self.gpio = GPIO.get_platform_gpio()
-        self.gpio.setup(constants.STATUS_PIN, GPIO.OUT)
-        self.gpio.setup(constants.RED_PIN, GPIO.OUT)
-        self.gpio.setup(constants.GREEN_PIN, GPIO.OUT)
-        self.gpio.setup(constants.UP_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        self.gpio.setup(constants.DOWN_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        self.gpio.setup(constants.BACK_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        self.gpio.setup(constants.SELECT_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        self.lastButtonState = constants.NONE
+        self.gpio.setup(config.STATUS_PIN, GPIO.OUT)
+        self.gpio.setup(config.RED_PIN, GPIO.OUT)
+        self.gpio.setup(config.GREEN_PIN, GPIO.OUT)
+        self.gpio.setup(config.UP_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        self.gpio.setup(config.DOWN_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        self.gpio.setup(config.BACK_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        self.gpio.setup(config.SELECT_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        self.lastButtonState = config.NONE
         
         self.disp = Adafruit_SSD1306.SSD1306_128_64(rst=24, dc=23, spi=SPI.SpiDev(0, 0, max_speed_hz=8000000))
         self.disp.begin()
-        self.image = Image.new('1', (constants.WIDTH, constants.HEIGHT))
+        self.image = Image.new('1', (config.WIDTH, config.HEIGHT))
         self.draw = ImageDraw.Draw(self.image)
 
-        self.terminal_screen = TerminalScreen(constants.TERMINAL_NUM_LINES, font_13)
+        self.terminal_screen = TerminalScreen(config.TERMINAL_NUM_LINES, font_13)
         self.disp.display()
 
     def set_led_states(self, status=False, red=False, green=False):
-        self.gpio.output(constants.STATUS_PIN, status)
-        self.gpio.output(constants.RED_PIN, red)
-        self.gpio.output(constants.GREEN_PIN, green)
+        self.gpio.output(config.STATUS_PIN, status)
+        self.gpio.output(config.RED_PIN, red)
+        self.gpio.output(config.GREEN_PIN, green)
 
     def get_up_state(self):
-        return not self.gpio.input(constants.UP_PIN)
+        return not self.gpio.input(config.UP_PIN)
 
     def get_down_state(self):
-        return not self.gpio.input(constants.DOWN_PIN)
+        return not self.gpio.input(config.DOWN_PIN)
 
     def get_back_state(self):
-        return not self.gpio.input(constants.BACK_PIN)
+        return not self.gpio.input(config.BACK_PIN)
 
     def get_select_state(self):
-        return not self.gpio.input(constants.SELECT_PIN)
+        return not self.gpio.input(config.SELECT_PIN)
 
     def get_button_state(self):
-        state = constants.NONE
+        state = config.NONE
         if self.get_up_state():
-            state = constants.UP
+            state = config.UP
         elif self.get_down_state():
-            state = constants.DOWN
+            state = config.DOWN
         elif self.get_back_state():
-            state = constants.BACK
+            state = config.BACK
         elif self.get_select_state():
-            state = constants.SELECT
+            state = config.SELECT
         if state == self.lastButtonState:
             self.lastButtonState = state
-            return constants.NONE
+            return config.NONE
         self.lastButtonState = state
         return state
 
@@ -119,7 +119,7 @@ class Hat:
         self.disp.display()
 
     def clear(self):
-        self.draw.rectangle((0, 0, constants.WIDTH, constants.HEIGHT), outline=0, fill=0)
+        self.draw.rectangle((0, 0, config.WIDTH, config.HEIGHT), outline=0, fill=0)
 
     def refresh(self):
         self.disp.image(self.image)
@@ -133,8 +133,8 @@ class Hat:
         self.clear()
         x = 0
         for l in self.terminal_screen.get_lines():
-            self.draw_text(l, font_13, constants.TERMINAL_X_INDENT, x * constants.TERMINAL_LINE_SPACING +
-                           constants.TERMINAL_Y_INDENT)
+            self.draw_text(l, font_13, config.TERMINAL_X_INDENT, x * config.TERMINAL_LINE_SPACING +
+                           config.TERMINAL_Y_INDENT)
             x += 1
         self.refresh()
 
@@ -180,11 +180,14 @@ class Hat:
     def display_rx(self, beac):
         self.clear()
         self.image.paste(bmp3, (0, 0))
-        self.draw_text(beac.code_alpha, font_64, 0, -4)
+        self.draw_text(beac.get_external_text(), font_32, 0, -4)
+        self.draw_text(beac.get_type_text(), font_32, 0, 16)
+        self.draw_text(beac.get_mode_text(), font_32, 0, 32)
+        self.draw_text(beac.code_alpha, font_64, 64, -4)
         if beac.split:
-            self.draw_text("SPLIT", font_32, 40, -4)
+            self.draw_text("SPLIT", font_32, 80, -4)
         if beac.lap:
-            self.draw_text("LAP", font_32, 40, 16)
+            self.draw_text("LAP", font_32, 80, 16)
         self.draw_codes_done(beac)
         self.refresh()
 
@@ -207,11 +210,11 @@ class Hat:
         i = 0
         for l in lines:
             if i == pos:
-                self.draw.rectangle((0, get_line_pos(pos) + 1, constants.WIDTH, get_line_pos(pos) + 1 +
-                                     constants.MENU_LINE_SPACING), outline=0, fill=255)
-                self.draw_text(l, font_10, constants.MENU_X_INDENT, get_line_pos(i) + 1, invert=True)
+                self.draw.rectangle((0, get_line_pos(pos) + 1, config.WIDTH, get_line_pos(pos) + 1 +
+                                     config.MENU_LINE_SPACING), outline=0, fill=255)
+                self.draw_text(l, font_10, config.MENU_X_INDENT, get_line_pos(i) + 1, invert=True)
             else:
-                self.draw_text(l, font_10, constants.MENU_X_INDENT, get_line_pos(i) + 1)
+                self.draw_text(l, font_10, config.MENU_X_INDENT, get_line_pos(i) + 1)
             i += 1
         self.refresh()
 
@@ -233,7 +236,7 @@ class TerminalScreen:
             del self.lines[0]
         i = 0
         for i in range(len(text), 0, -1):
-            if self.font.getsize(text[:i])[0] < constants.WIDTH:
+            if self.font.getsize(text[:i])[0] < config.WIDTH:
                 self.lines.append(text[:i])
                 break
         if i < len(text):

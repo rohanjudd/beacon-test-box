@@ -1,21 +1,21 @@
 import serial
 import time
 from serial import SerialException
-import constants
+import config
 
 
 class Micro:
     def __init__(self):
         self.ser = serial.Serial()
-        self.ser.port = constants.PORT
-        self.ser.baudrate = constants.BAUD_RATE
-        self.ser.timeout = constants.TIMEOUT
+        self.ser.port = config.PORT
+        self.ser.baudrate = config.BAUD_RATE
+        self.ser.timeout = config.TIMEOUT
 
     def connect(self):
         try:
             self.ser.open()
         except SerialException:
-            print("{} not found".format(constants.PORT))
+            print("{} not found".format(config.PORT))
 
     def disconnect(self):
         self.ser.close()
@@ -32,7 +32,7 @@ class Micro:
     def ping(self):
         for i in range(0, 3):
             self.flush()
-            self.send(constants.PING)
+            self.send(config.PING)
             if self.read() == 'p':
                 return True
         return False
@@ -57,9 +57,9 @@ class Micro:
 
     def set_ir_mode(self, mode):
         if mode:
-            self.send(constants.SET_MODE_C10)
+            self.send(config.SET_MODE_C10)
         else:
-            self.send(constants.SET_MODE_C10)
+            self.send(config.SET_MODE_C10)
 
     def set_ir_code(self, code):
         if code:
@@ -68,10 +68,10 @@ class Micro:
             self.send('C10_MODE')
 
     def ir_transmit(self):
-        self.send(constants.TRANSMIT)
+        self.send(config.TRANSMIT)
 
     def ir_receive_once(self):
-        self.send(constants.RECIEVE)
+        self.send(config.RECIEVE)
         time.sleep(0.2)
         return self.read() == '1'
 
@@ -79,7 +79,7 @@ class Micro:
         pass
 
     def button_check(self):
-        self.send(constants.GET_BUTTON_PRESS)
+        self.send(config.GET_BUTTON_PRESS)
         time.sleep(0.2)
         return self.read() == '1'
 
